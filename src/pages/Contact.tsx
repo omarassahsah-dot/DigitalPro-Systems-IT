@@ -55,6 +55,7 @@ const ContactPage = () => {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
+          to: "contact@dps-it.ma",
           subject: `[DPS-IT Contact] ${result.data.subject}`,
           from_name: result.data.name,
           email: result.data.email,
