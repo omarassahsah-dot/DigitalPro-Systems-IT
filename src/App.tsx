@@ -9,6 +9,12 @@ import About from "./pages/About";
 import Blog from "./pages/Blog";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import ControleAcces from "./pages/securite-electronique/ControleAcces";
+import Videosurveillance from "./pages/securite-electronique/Videosurveillance";
+import AlarmeAntiIntrusion from "./pages/securite-electronique/AlarmeAntiIntrusion";
+import ProtectionIncendie from "./pages/securite-electronique/ProtectionIncendie";
+import SecuritePeripherique from "./pages/securite-electronique/SecuritePeripherique";
+import SerruresBatiments from "./pages/securite-electronique/SerruresBatiments";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +30,12 @@ const App = () => (
           <Route path="/a-propos" element={<About />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/services/securite-electronique/controle-acces" element={<ControleAcces />} />
+          <Route path="/services/securite-electronique/videosurveillance" element={<Videosurveillance />} />
+          <Route path="/services/securite-electronique/alarme-anti-intrusion" element={<AlarmeAntiIntrusion />} />
+          <Route path="/services/securite-electronique/protection-incendie" element={<ProtectionIncendie />} />
+          <Route path="/services/securite-electronique/securite-peripherique" element={<SecuritePeripherique />} />
+          <Route path="/services/securite-electronique/serrures-batiments" element={<SerruresBatiments />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

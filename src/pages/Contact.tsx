@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ParallaxSection } from "@/components/ParallaxSection";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -99,7 +100,12 @@ const ContactPage = () => {
           </div>
         </section>
 
-        <section className="py-16 lg:py-24 bg-background">
+        <ParallaxSection
+          imageUrl="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=1920&q=80"
+          overlayClass="bg-background/96"
+          className="py-16 lg:py-24"
+          speed={8}
+        >
           <div className="container mx-auto px-4 lg:px-8">
             <div className="grid lg:grid-cols-3 gap-10">
               {/* Info */}
@@ -170,7 +176,7 @@ const ContactPage = () => {
               </motion.div>
             </div>
           </div>
-        </section>
+        </ParallaxSection>
 
         {/* Google Maps */}
         <section className="bg-muted">

@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import ServicesSection from "@/components/ServicesSection";
+import { ParallaxSection } from "@/components/ParallaxSection";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,12 @@ const Index = () => {
       <ServicesSection />
 
       {/* Why Us */}
-      <section className="py-20 lg:py-28 bg-navy">
+      <ParallaxSection
+        imageUrl="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80"
+        overlayClass="bg-navy-dark/85"
+        className="py-20 lg:py-28"
+        speed={10}
+      >
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -67,31 +73,36 @@ const Index = () => {
             </motion.div>
           </div>
         </div>
-      </section>
+      </ParallaxSection>
 
       {/* CTA */}
-      <section className="py-20 bg-background">
+      <ParallaxSection
+        imageUrl="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+        overlayClass="bg-navy/90"
+        className="py-20"
+        speed={8}
+      >
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="font-display text-3xl lg:text-4xl font-bold text-foreground mb-4">
+            <h2 className="font-display text-3xl lg:text-4xl font-bold text-primary-foreground mb-4">
               Prêt à digitaliser et sécuriser votre entreprise ?
             </h2>
-            <p className="text-muted-foreground max-w-xl mx-auto mb-8">
+            <p className="text-primary-foreground/70 max-w-xl mx-auto mb-8">
               Contactez-nous pour un audit gratuit et une proposition personnalisée adaptée à vos besoins.
             </p>
             <Link to="/contact">
-              <Button variant="default" size="lg">
+              <Button variant="hero" size="lg">
                 Contactez-nous maintenant
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
           </motion.div>
         </div>
-      </section>
+      </ParallaxSection>
 
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ParallaxSection } from "@/components/ParallaxSection";
 import { motion } from "framer-motion";
 import { Target, Eye, Award, Users, Cpu, Globe } from "lucide-react";
 
@@ -25,7 +26,12 @@ const AboutPage = () => {
         </section>
 
         {/* Vision & Mission */}
-        <section className="py-16 lg:py-24 bg-background">
+        <ParallaxSection
+          imageUrl="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80"
+          overlayClass="bg-background/95"
+          className="py-16 lg:py-24"
+          speed={8}
+        >
           <div className="container mx-auto px-4 lg:px-8">
             <div className="grid lg:grid-cols-2 gap-12">
               <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
@@ -57,15 +63,20 @@ const AboutPage = () => {
               </motion.div>
             </div>
           </div>
-        </section>
+        </ParallaxSection>
 
         {/* Values */}
-        <section className="py-16 lg:py-24 bg-muted">
+        <ParallaxSection
+          imageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80"
+          overlayClass="bg-navy-dark/88"
+          className="py-16 lg:py-24"
+          speed={10}
+        >
           <div className="container mx-auto px-4 lg:px-8">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="text-center mb-12">
-              <h2 className="font-display text-3xl font-bold text-foreground mb-4">Nos Valeurs</h2>
-              <p className="text-muted-foreground max-w-xl mx-auto">Les principes qui guident chacune de nos actions.</p>
+              <h2 className="font-display text-3xl font-bold text-primary-foreground mb-4">Nos Valeurs</h2>
+              <p className="text-primary-foreground/70 max-w-xl mx-auto">Les principes qui guident chacune de nos actions.</p>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {values.map((v, i) => (
@@ -74,18 +85,18 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="bg-card rounded-xl p-6 border border-border shadow-card text-center"
+                  className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 shadow-card text-center hover:bg-white/10 transition-colors duration-300"
                 >
-                  <div className="w-12 h-12 rounded-lg bg-accent/10 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-12 h-12 rounded-lg bg-accent/20 flex items-center justify-center mx-auto mb-4">
                     <v.icon className="w-6 h-6 text-accent" />
                   </div>
-                  <h3 className="font-display font-semibold text-foreground mb-2">{v.title}</h3>
-                  <p className="text-muted-foreground text-sm">{v.desc}</p>
+                  <h3 className="font-display font-semibold text-primary-foreground mb-2">{v.title}</h3>
+                  <p className="text-primary-foreground/60 text-sm">{v.desc}</p>
                 </motion.div>
               ))}
             </div>
           </div>
-        </section>
+        </ParallaxSection>
       </div>
       <Footer />
     </div>
