@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Shield, ShieldCheck, Server, Monitor, Code, BarChart3, ShoppingCart,
@@ -21,6 +22,7 @@ const CARD_COLORS = [
 
 const categories = [
   {
+    id: "securite-electronique",
     label: "Notre Expertise",
     title: "Sécurité Électronique",
     bg: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1920&q=80",
@@ -34,6 +36,7 @@ const categories = [
     ],
   },
   {
+    id: "cybersecurite",
     label: "Notre Expertise",
     title: "Cybersécurité",
     bg: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80",
@@ -47,6 +50,7 @@ const categories = [
     ],
   },
   {
+    id: "infrastructures-reseaux",
     label: "Notre Expertise",
     title: "Infrastructures Réseaux & Systèmes",
     bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80",
@@ -60,6 +64,7 @@ const categories = [
     ],
   },
   {
+    id: "gestion-parc",
     label: "Notre Expertise",
     title: "Gestion de Parc Informatique",
     bg: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80",
@@ -73,6 +78,7 @@ const categories = [
     ],
   },
   {
+    id: "developpement",
     label: "Notre Expertise",
     title: "Développement Logiciel & ERP/CRM",
     bg: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80",
@@ -86,6 +92,7 @@ const categories = [
     ],
   },
   {
+    id: "distribution",
     label: "Notre Expertise",
     title: "Vente & Distribution de Matériel",
     bg: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
@@ -100,12 +107,12 @@ const categories = [
   },
 ];
 
-function ParallaxBg({ imageUrl, children }: { imageUrl: string; children: React.ReactNode }) {
+function ParallaxBg({ imageUrl, children, id }: { imageUrl: string; children: React.ReactNode; id?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   return (
-    <div ref={ref} className="relative overflow-hidden">
+    <div id={id} ref={ref} className="relative overflow-hidden scroll-mt-24 lg:scroll-mt-28">
       <motion.div style={{ y }} className="absolute inset-[-15%] will-change-transform">
         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a1628]/80" />
@@ -116,10 +123,26 @@ function ParallaxBg({ imageUrl, children }: { imageUrl: string; children: React.
 }
 
 const ServicesPage = () => {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      setTimeout(() => {
+        const id = hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [hash]);
+
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="pt-24 lg:pt-28">
+      <div className="pt-16 lg:pt-20"> {/* Match new navbar height */}
         {/* Hero */}
         <section className="bg-hero py-16 lg:py-24">
           <div className="container mx-auto px-4 lg:px-8">
@@ -132,7 +155,7 @@ const ServicesPage = () => {
 
         {/* Categories */}
         {categories.map((cat) => (
-          <ParallaxBg key={cat.title} imageUrl={cat.bg}>
+          <ParallaxBg key={cat.title} imageUrl={cat.bg} id={cat.id}>
             <div className="py-16 lg:py-24">
               <div className="container mx-auto px-4 lg:px-8">
                 <motion.div
@@ -195,4 +218,3 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
-
