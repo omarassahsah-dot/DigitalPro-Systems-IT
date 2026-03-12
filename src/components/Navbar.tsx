@@ -34,9 +34,9 @@ const Navbar = () => {
       style={{ WebkitBackdropFilter: "blur(24px)" }}
     >
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="flex items-center justify-between h-24 lg:h-28">
+        <div className="flex items-center justify-between h-16 lg:h-20">
           <Link to="/" className="flex items-center">
-            <img src={logo} alt="DigitalPro Systems IT" style={{ width: "200px", height: "auto" }} className="object-contain" />
+            <img src={logo} alt="DigitalPro Systems IT" style={{ width: "150px", height: "auto" }} className="object-contain" />
           </Link>
 
           {/* Desktop nav */}
