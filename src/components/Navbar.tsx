@@ -38,6 +38,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center">
             <img src={logo} alt="DigitalPro Systems IT" style={{ width: "150px", height: "auto" }} className="object-contain" />
           </Link>
+          
 
           {/* Desktop nav */}
           <div className="hidden lg:flex items-center gap-1">
