@@ -1,198 +1,119 @@
 import { Link } from "react-router-dom";
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import {
-  Shield, ShieldCheck, Server, Monitor, Code, BarChart3, ShoppingCart,
-  Fingerprint, Camera, BellRing, Flame, ShieldAlert, KeyRound,
-  Lock, Bug, Eye, BookOpen, Globe, Wifi, HardDrive, Headphones,
-  Package, LayoutDashboard, Database, TrendingUp, Truck, Laptop, ArrowRight,
+import { motion } from "framer-motion";
+import { 
+  ArrowRight, ShieldCheck, Shield, Globe, Monitor, Code, Server 
 } from "lucide-react";
+import { ParallaxSection } from "@/components/ParallaxSection";
 
-/* ── helpers ── */
-const CARD_COLORS = [
-  "bg-[#1a3a6b] hover:bg-[#1e4580]",
-  "bg-[#8b1a2d] hover:bg-[#9e2035]",
-  "bg-[#1a3a6b] hover:bg-[#1e4580]",
-  "bg-[#8b1a2d] hover:bg-[#9e2035]",
-  "bg-[#1a3a6b] hover:bg-[#1e4580]",
-  "bg-[#8b1a2d] hover:bg-[#9e2035]",
-];
-
-interface SubCard {
-  icon: React.ElementType;
-  title: string;
-  desc: string;
-  href: string;
-}
-
-interface Category {
-  label: string;
-  title: string;
-  bg: string;
-  cards: SubCard[];
-}
-
-const categories: Category[] = [
+const mainCategories = [
   {
-    label: "Notre Expertise",
+    id: "securite-electronique",
     title: "Sécurité Électronique",
-    bg: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1920&q=80",
-    cards: [
-      { icon: Fingerprint, title: "Contrôle d'Accès", desc: "Biométrie, badges RFID/NFC, gestion multi-zones et journaux d'accès en temps réel.", href: "/services/securite-electronique/controle-acces" },
-      { icon: Camera, title: "Vidéosurveillance", desc: "Caméras IP/HD 24h/24, vision nocturne, analyse vidéo intelligente et stockage sécurisé.", href: "/services/securite-electronique/videosurveillance" },
-      { icon: BellRing, title: "Alarme Anti-Intrusion", desc: "Détecteurs de mouvement, sirènes, alertes SMS et télésurveillance avec intervention rapide.", href: "/services/securite-electronique/alarme-anti-intrusion" },
-      { icon: Flame, title: "Protection Incendie", desc: "Détection précoce, extinction automatique, conformité réglementaire et maintenance annuelle.", href: "/services/securite-electronique/protection-incendie" },
-      { icon: ShieldAlert, title: "Sécurité Périphérique", desc: "Clôtures électrifiées, barrières infrarouges, éclairage automatique et surveillance périmétrique.", href: "/services/securite-electronique/securite-peripherique" },
-      { icon: KeyRound, title: "Serrures de Bâtiments", desc: "Serrures connectées, cylindres digitaux, portes blindées et gestion des accès à distance.", href: "/services/securite-electronique/serrures-batiments" },
-    ],
+    desc: "Contrôle d'accès, vidéosurveillance, alarmes et protection incendie.",
+    bg: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=800&q=80",
+    icon: ShieldCheck,
   },
   {
-    label: "Notre Expertise",
+    id: "cybersecurite",
     title: "Cybersécurité",
-    bg: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80",
-    cards: [
-      { icon: Shield, title: "Firewall & VPN", desc: "Protection périmétrique avancée et tunnels VPN sécurisés pour vos collaborateurs.", href: "/services" },
-      { icon: Bug, title: "Détection d'Intrusion", desc: "IDS/IPS, monitoring continu et alertes en temps réel sur vos infrastructures.", href: "/services" },
-      { icon: Eye, title: "SOC & Supervision", desc: "Centre opérationnel de sécurité, surveillance 24h/24 et réponse aux incidents.", href: "/services" },
-      { icon: BookOpen, title: "Audit de Sécurité", desc: "Tests de pénétration, analyse des vulnérabilités et rapports de conformité.", href: "/services" },
-      { icon: Lock, title: "Sensibilisation", desc: "Formations et ateliers pour sensibiliser vos équipes aux bonnes pratiques.", href: "/services" },
-      { icon: Database, title: "Plan de Reprise", desc: "PRA/PCA, sauvegarde chiffrée et continuité d'activité garantie.", href: "/services" },
-    ],
+    desc: "Firewalls, audit, détection d'intrusion et plan de reprise d'activité.",
+    bg: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+    icon: Shield,
   },
   {
-    label: "Notre Expertise",
+    id: "infrastructures-reseaux",
     title: "Infrastructures Réseaux & Systèmes",
-    bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80",
-    cards: [
-      { icon: Globe, title: "Réseaux LAN/WAN", desc: "Conception et déploiement de réseaux performants et hautement disponibles.", href: "/services" },
-      { icon: HardDrive, title: "Câblage Structuré", desc: "Installation de câblage cuivre et fibre optique aux standards TIA/ISO.", href: "/services" },
-      { icon: Wifi, title: "WiFi Entreprise", desc: "Solutions Wi-Fi 6 haute densité avec itinérance transparente et sécurisation.", href: "/services" },
-      { icon: Server, title: "Virtualisation", desc: "VMware, Hyper-V, migration vers le cloud hybride et conteneurisation.", href: "/services" },
-      { icon: ShieldCheck, title: "Firewall Réseau", desc: "Segmentation, DMZ, VLAN et politique de sécurité réseau avancée.", href: "/services" },
-      { icon: TrendingUp, title: "Cloud Hybride", desc: "Migration et gestion de vos ressources cloud AWS, Azure ou privées.", href: "/services" },
-    ],
+    desc: "Réseaux LAN/WAN, WiFi d'entreprise, virtualisation et cloud hybride.",
+    bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+    icon: Globe,
   },
   {
-    label: "Notre Expertise",
+    id: "gestion-parc",
     title: "Gestion de Parc Informatique",
-    bg: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80",
-    cards: [
-      { icon: Monitor, title: "Maintenance Préventive", desc: "Interventions planifiées, nettoyage, mises à jour et rapport de santé du parc.", href: "/services" },
-      { icon: Headphones, title: "Helpdesk N1/N2/N3", desc: "Support technique multi-niveaux, ticketing et SLA garantis.", href: "/services" },
-      { icon: LayoutDashboard, title: "Supervision Proactive", desc: "Monitoring en temps réel avec alertes avant panne et tableaux de bord.", href: "/services" },
-      { icon: Package, title: "Inventaire & Suivi", desc: "Gestion complète des actifs informatiques et cycle de vie des équipements.", href: "/services" },
-      { icon: Laptop, title: "Migration de Postes", desc: "Remplacement, déploiement d'images et transfert de données sécurisé.", href: "/services" },
-      { icon: BookOpen, title: "Gestion des Licences", desc: "Audit, renouvellement et optimisation de vos licences logicielles.", href: "/services" },
-    ],
+    desc: "Maintenance préventive, helpdesk n1/n2/n3, supervision proactive et inventaire.",
+    bg: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800&q=80",
+    icon: Monitor,
   },
   {
-    label: "Notre Expertise",
+    id: "developpement",
     title: "Développement Logiciel & ERP/CRM",
-    bg: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80",
-    cards: [
-      { icon: Globe, title: "Applications Web", desc: "Sites et applications web sur mesure, performants, responsive et sécurisés.", href: "/services" },
-      { icon: Laptop, title: "Applications Mobiles", desc: "Apps iOS et Android natives ou cross-platform adaptées à vos métiers.", href: "/services" },
-      { icon: Code, title: "API & Intégrations", desc: "Connexion de vos logiciels existants via des APIs robustes et documentées.", href: "/services" },
-      { icon: BarChart3, title: "ERP sur Mesure", desc: "Implémentation et personnalisation de solutions ERP adaptées à votre secteur.", href: "/services" },
-      { icon: TrendingUp, title: "CRM & Relation Client", desc: "Gestion des ventes, marketing automation et fidélisation client.", href: "/services" },
-      { icon: LayoutDashboard, title: "Business Intelligence", desc: "Tableaux de bord, KPIs et rapports pour piloter votre activité.", href: "/services" },
-    ],
+    desc: "Applications web et mobiles, API, implémentation ERP et Business Intelligence.",
+    bg: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80",
+    icon: Code,
   },
   {
-    label: "Notre Expertise",
+    id: "distribution",
     title: "Vente & Distribution de Matériel",
-    bg: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
-    cards: [
-      { icon: Server, title: "Serveurs & Stockage", desc: "Serveurs rack, NAS, SAN et solutions de stockage haute capacité.", href: "/services" },
-      { icon: Laptop, title: "Postes de Travail", desc: "PC fixes, laptops, stations graphiques de marques leaders avec garantie.", href: "/services" },
-      { icon: Wifi, title: "Équipements Réseau", desc: "Switches, routeurs, points d'accès Cisco, Ubiquiti, HP et autres.", href: "/services" },
-      { icon: Package, title: "Périphériques", desc: "Imprimantes, écrans, scanners et accessoires informatiques professionnels.", href: "/services" },
-      { icon: BookOpen, title: "Licences Logicielles", desc: "Microsoft, Adobe, antivirus et logiciels métiers au meilleur prix.", href: "/services" },
-      { icon: Truck, title: "Import / Export", desc: "Importation et exportation de matériel technologique international.", href: "/services" },
-    ],
+    desc: "Serveurs de stockage, postes de travail, équipements réseau et licences logicielles.",
+    bg: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80",
+    icon: Server,
   },
 ];
-
-/* ── Parallax wrapper ── */
-function ParallaxBg({ imageUrl, children }: { imageUrl: string; children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
-  return (
-    <div ref={ref} className="relative overflow-hidden">
-      <motion.div style={{ y }} className="absolute inset-[-15%] will-change-transform">
-        <img src={imageUrl} alt="" className="w-full h-full object-cover" />
-        <div className="absolute inset-0 bg-[#0a1628]/80" />
-      </motion.div>
-      <div className="relative z-10">{children}</div>
-    </div>
-  );
-}
 
 const ServicesSection = () => {
   return (
-    <div>
-      {categories.map((cat, catIdx) => (
-        <ParallaxBg key={cat.title} imageUrl={cat.bg}>
-          <div className="py-16 lg:py-24">
-            <div className="container mx-auto px-4 lg:px-8">
-              {/* Category header */}
-              <motion.div
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                className="mb-10"
-              >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="w-4 h-4 rounded-sm bg-accent inline-block" />
-                  <span className="text-accent font-semibold text-sm uppercase tracking-widest">{cat.label}</span>
-                </div>
-                <h2 className="font-display text-3xl lg:text-5xl font-extrabold text-white uppercase tracking-wide">
-                  {cat.title}
-                </h2>
-              </motion.div>
+    <ParallaxSection
+      imageUrl="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&q=80"
+      overlayClass="bg-navy-dark/90"
+      className="py-20 lg:py-28"
+      speed={8}
+    >
+      <div className="absolute inset-0 bg-white/[0.02]" style={{ backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)", backgroundSize: "60px 60px" }} />
+      <div className="container mx-auto px-4 lg:px-8 relative z-10">
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <span className="text-accent font-semibold text-sm uppercase tracking-widest mb-3 block">
+              Nos Domaines d'Expertise
+            </span>
+            <h2 className="font-display text-3xl lg:text-5xl font-extrabold text-white uppercase tracking-wide">
+              Solutions Technologiques à 360°
+            </h2>
+          </motion.div>
+        </div>
 
-              {/* Cards grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {cat.cards.map((card, i) => {
-                  const colorClass = CARD_COLORS[i % CARD_COLORS.length];
-                  return (
-                    <motion.div
-                      key={card.title}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.5, delay: i * 0.07 }}
-                      whileHover={{ y: -5 }}
-                    >
-                      <Link
-                        to={card.href}
-                        className={`group flex flex-col h-full rounded-xl p-6 transition-all duration-300 ${colorClass} shadow-lg`}
-                      >
-                        {/* Icon blob */}
-                        <div className="w-16 h-16 rounded-[40%] bg-white/15 flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110">
-                          <card.icon className="w-8 h-8 text-white" />
-                        </div>
-                        <h3 className="font-display text-base font-bold text-white uppercase tracking-wide mb-3">
-                          {card.title}
-                        </h3>
-                        <p className="text-white/75 text-sm leading-relaxed flex-1 mb-5">
-                          {card.desc}
-                        </p>
-                        <span className="inline-flex items-center gap-1.5 text-white/90 text-sm font-semibold group-hover:gap-3 transition-all duration-200">
-                          Voir Plus <ArrowRight className="w-4 h-4" />
-                        </span>
-                      </Link>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </ParallaxBg>
-      ))}
-    </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {mainCategories.map((cat, i) => (
+            <motion.div
+              key={cat.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1, duration: 0.5 }}
+            >
+              <Link
+                to={`/services#${cat.id}`}
+                className="group relative block h-80 rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.5)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,180,255,0.25)] bg-navy-dark/60 backdrop-blur-sm border border-white/10 hover:border-accent/50"
+              >
+                {/* Background image & gradient overlay */}
+                <div className="absolute inset-0 z-0">
+                  <img src={cat.bg} alt={cat.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110 opacity-70 group-hover:opacity-90" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a1628]/90 via-[#0a1628]/60 to-[#0a1628]/20" />
+                  <div className="absolute inset-0 bg-accent/0 group-hover:bg-accent/10 transition-colors duration-500 mix-blend-overlay" />
+                </div>
+                
+                {/* Content */}
+                <div className="absolute inset-0 z-10 p-6 flex flex-col justify-end">
+                  <div className="w-14 h-14 rounded-2xl bg-white/5 backdrop-blur-md flex items-center justify-center mb-5 border border-white/10 group-hover:scale-110 group-hover:bg-accent/20 group-hover:border-accent/40 group-hover:shadow-[0_0_20px_rgba(0,180,255,0.3)] transition-all duration-500">
+                    <cat.icon className="w-7 h-7 text-white/90 group-hover:text-white transition-colors duration-300" />
+                  </div>
+                  <h3 className="font-display text-xl font-bold text-white mb-3 group-hover:text-accent group-hover:drop-shadow-[0_0_8px_rgba(0,180,255,0.5)] transition-all duration-300">{cat.title}</h3>
+                  <p className="text-white/70 text-sm mb-5 line-clamp-2 h-10 transition-opacity duration-300">
+                    {cat.desc}
+                  </p>
+                  <span className="inline-flex items-center gap-2 text-accent text-sm font-semibold opacity-80 group-hover:opacity-100 group-hover:gap-3 transition-all duration-300">
+                    Découvrir les services <ArrowRight className="w-4 h-4" />
+                  </span>
+                </div>
+              </Link>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </ParallaxSection>
   );
 };
 

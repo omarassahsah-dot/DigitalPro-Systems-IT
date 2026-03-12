@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import {
   Shield, ShieldCheck, Server, Monitor, Code, BarChart3, ShoppingCart,
@@ -21,6 +22,7 @@ const CARD_COLORS = [
 
 const categories = [
   {
+    id: "securite-electronique",
     label: "Notre Expertise",
     title: "Sécurité Électronique",
     bg: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1920&q=80",
@@ -34,78 +36,83 @@ const categories = [
     ],
   },
   {
+    id: "cybersecurite",
     label: "Notre Expertise",
     title: "Cybersécurité",
     bg: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80",
     cards: [
-      { icon: Shield, title: "Firewall & VPN", desc: "Protection périmétrique avancée et tunnels VPN sécurisés pour vos collaborateurs.", href: "/contact" },
-      { icon: Bug, title: "Détection d'Intrusion", desc: "IDS/IPS, monitoring continu et alertes en temps réel sur vos infrastructures.", href: "/contact" },
-      { icon: Eye, title: "SOC & Supervision", desc: "Centre opérationnel de sécurité, surveillance 24h/24 et réponse aux incidents.", href: "/contact" },
-      { icon: BookOpen, title: "Audit de Sécurité", desc: "Tests de pénétration, analyse des vulnérabilités et rapports de conformité.", href: "/contact" },
-      { icon: Lock, title: "Sensibilisation", desc: "Formations et ateliers pour sensibiliser vos équipes aux bonnes pratiques.", href: "/contact" },
-      { icon: Database, title: "Plan de Reprise", desc: "PRA/PCA, sauvegarde chiffrée et continuité d'activité garantie.", href: "/contact" },
+      { icon: Shield, title: "Firewall & VPN", desc: "Protection périmétrique avancée et tunnels VPN sécurisés pour vos collaborateurs.", href: "/services/cybersecurite/firewall-vpn" },
+      { icon: Bug, title: "Détection d'Intrusion", desc: "IDS/IPS, monitoring continu et alertes en temps réel sur vos infrastructures.", href: "/services/cybersecurite/detection-intrusion" },
+      { icon: Eye, title: "SOC & Supervision", desc: "Centre opérationnel de sécurité, surveillance 24h/24 et réponse aux incidents.", href: "/services/cybersecurite/soc-supervision" },
+      { icon: BookOpen, title: "Audit de Sécurité", desc: "Tests de pénétration, analyse des vulnérabilités et rapports de conformité.", href: "/services/cybersecurite/audit-securite" },
+      { icon: Lock, title: "Sensibilisation", desc: "Formations et ateliers pour sensibiliser vos équipes aux bonnes pratiques.", href: "/services/cybersecurite/sensibilisation" },
+      { icon: Database, title: "Plan de Reprise", desc: "PRA/PCA, sauvegarde chiffrée et continuité d'activité garantie.", href: "/services/cybersecurite/plan-reprise" },
     ],
   },
   {
+    id: "infrastructures-reseaux",
     label: "Notre Expertise",
     title: "Infrastructures Réseaux & Systèmes",
     bg: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1920&q=80",
     cards: [
-      { icon: Globe, title: "Réseaux LAN/WAN", desc: "Conception et déploiement de réseaux performants et hautement disponibles.", href: "/contact" },
-      { icon: HardDrive, title: "Câblage Structuré", desc: "Installation de câblage cuivre et fibre optique aux standards TIA/ISO.", href: "/contact" },
-      { icon: Wifi, title: "WiFi Entreprise", desc: "Solutions Wi-Fi 6 haute densité avec itinérance transparente et sécurisation.", href: "/contact" },
-      { icon: Server, title: "Virtualisation", desc: "VMware, Hyper-V, migration vers le cloud hybride et conteneurisation.", href: "/contact" },
-      { icon: ShieldCheck, title: "Firewall Réseau", desc: "Segmentation, DMZ, VLAN et politique de sécurité réseau avancée.", href: "/contact" },
-      { icon: TrendingUp, title: "Cloud Hybride", desc: "Migration et gestion de vos ressources cloud AWS, Azure ou privées.", href: "/contact" },
+      { icon: Globe, title: "Réseaux LAN/WAN", desc: "Conception et déploiement de réseaux performants et hautement disponibles.", href: "/services/infrastructures-reseaux/reseaux-lan-wan" },
+      { icon: HardDrive, title: "Câblage Structuré", desc: "Installation de câblage cuivre et fibre optique aux standards TIA/ISO.", href: "/services/infrastructures-reseaux/cablage-structure" },
+      { icon: Wifi, title: "WiFi Entreprise", desc: "Solutions Wi-Fi 6 haute densité avec itinérance transparente et sécurisation.", href: "/services/infrastructures-reseaux/wifi-entreprise" },
+      { icon: Server, title: "Virtualisation", desc: "VMware, Hyper-V, migration vers le cloud hybride et conteneurisation.", href: "/services/infrastructures-reseaux/virtualisation" },
+      { icon: ShieldCheck, title: "Firewall Réseau", desc: "Segmentation, DMZ, VLAN et politique de sécurité réseau avancée.", href: "/services/infrastructures-reseaux/firewall-reseau" },
+      { icon: TrendingUp, title: "Cloud Hybride", desc: "Migration et gestion de vos ressources cloud AWS, Azure ou privées.", href: "/services/infrastructures-reseaux/cloud-hybride" },
     ],
   },
   {
+    id: "gestion-parc",
     label: "Notre Expertise",
     title: "Gestion de Parc Informatique",
     bg: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=1920&q=80",
     cards: [
-      { icon: Monitor, title: "Maintenance Préventive", desc: "Interventions planifiées, nettoyage, mises à jour et rapport de santé du parc.", href: "/contact" },
-      { icon: Headphones, title: "Helpdesk N1/N2/N3", desc: "Support technique multi-niveaux, ticketing et SLA garantis.", href: "/contact" },
-      { icon: LayoutDashboard, title: "Supervision Proactive", desc: "Monitoring en temps réel avec alertes avant panne et tableaux de bord.", href: "/contact" },
-      { icon: Package, title: "Inventaire & Suivi", desc: "Gestion complète des actifs informatiques et cycle de vie des équipements.", href: "/contact" },
-      { icon: Laptop, title: "Migration de Postes", desc: "Remplacement, déploiement d'images et transfert de données sécurisé.", href: "/contact" },
-      { icon: BookOpen, title: "Gestion des Licences", desc: "Audit, renouvellement et optimisation de vos licences logicielles.", href: "/contact" },
+      { icon: Monitor, title: "Maintenance Préventive", desc: "Interventions planifiées, nettoyage, mises à jour et rapport de santé du parc.", href: "/services/gestion-parc/maintenance-preventive" },
+      { icon: Headphones, title: "Helpdesk N1/N2/N3", desc: "Support technique multi-niveaux, ticketing et SLA garantis.", href: "/services/gestion-parc/helpdesk" },
+      { icon: LayoutDashboard, title: "Supervision Proactive", desc: "Monitoring en temps réel avec alertes avant panne et tableaux de bord.", href: "/services/gestion-parc/supervision-proactive" },
+      { icon: Package, title: "Inventaire & Suivi", desc: "Gestion complète des actifs informatiques et cycle de vie des équipements.", href: "/services/gestion-parc/inventaire-suivi" },
+      { icon: Laptop, title: "Migration de Postes", desc: "Remplacement, déploiement d'images et transfert de données sécurisé.", href: "/services/gestion-parc/migration-postes" },
+      { icon: BookOpen, title: "Gestion des Licences", desc: "Audit, renouvellement et optimisation de vos licences logicielles.", href: "/services/gestion-parc/gestion-licences" },
     ],
   },
   {
+    id: "developpement",
     label: "Notre Expertise",
     title: "Développement Logiciel & ERP/CRM",
     bg: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1920&q=80",
     cards: [
-      { icon: Globe, title: "Applications Web", desc: "Sites et applications web sur mesure, performants, responsive et sécurisés.", href: "/contact" },
-      { icon: Laptop, title: "Applications Mobiles", desc: "Apps iOS et Android natives ou cross-platform adaptées à vos métiers.", href: "/contact" },
-      { icon: Code, title: "API & Intégrations", desc: "Connexion de vos logiciels existants via des APIs robustes et documentées.", href: "/contact" },
-      { icon: BarChart3, title: "ERP sur Mesure", desc: "Implémentation et personnalisation de solutions ERP adaptées à votre secteur.", href: "/contact" },
-      { icon: TrendingUp, title: "CRM & Relation Client", desc: "Gestion des ventes, marketing automation et fidélisation client.", href: "/contact" },
-      { icon: LayoutDashboard, title: "Business Intelligence", desc: "Tableaux de bord, KPIs et rapports pour piloter votre activité.", href: "/contact" },
+      { icon: Globe, title: "Applications Web", desc: "Sites et applications web sur mesure, performants, responsive et sécurisés.", href: "/services/developpement/applications-web" },
+      { icon: Laptop, title: "Applications Mobiles", desc: "Apps iOS et Android natives ou cross-platform adaptées à vos métiers.", href: "/services/developpement/applications-mobiles" },
+      { icon: Code, title: "API & Intégrations", desc: "Connexion de vos logiciels existants via des APIs robustes et documentées.", href: "/services/developpement/api-integrations" },
+      { icon: BarChart3, title: "ERP sur Mesure", desc: "Implémentation et personnalisation de solutions ERP adaptées à votre secteur.", href: "/services/developpement/erp-sur-mesure" },
+      { icon: TrendingUp, title: "CRM & Relation Client", desc: "Gestion des ventes, marketing automation et fidélisation client.", href: "/services/developpement/crm-relation-client" },
+      { icon: LayoutDashboard, title: "Business Intelligence", desc: "Tableaux de bord, KPIs et rapports pour piloter votre activité.", href: "/services/developpement/business-intelligence" },
     ],
   },
   {
+    id: "distribution",
     label: "Notre Expertise",
     title: "Vente & Distribution de Matériel",
     bg: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80",
     cards: [
-      { icon: Server, title: "Serveurs & Stockage", desc: "Serveurs rack, NAS, SAN et solutions de stockage haute capacité.", href: "/contact" },
-      { icon: Laptop, title: "Postes de Travail", desc: "PC fixes, laptops, stations graphiques de marques leaders avec garantie.", href: "/contact" },
-      { icon: Wifi, title: "Équipements Réseau", desc: "Switches, routeurs, points d'accès Cisco, Ubiquiti, HP et autres.", href: "/contact" },
-      { icon: Package, title: "Périphériques", desc: "Imprimantes, écrans, scanners et accessoires informatiques professionnels.", href: "/contact" },
-      { icon: BookOpen, title: "Licences Logicielles", desc: "Microsoft, Adobe, antivirus et logiciels métiers au meilleur prix.", href: "/contact" },
-      { icon: Truck, title: "Import / Export", desc: "Importation et exportation de matériel technologique international.", href: "/contact" },
+      { icon: Server, title: "Serveurs & Stockage", desc: "Serveurs rack, NAS, SAN et solutions de stockage haute capacité.", href: "/services/distribution/serveurs-stockage" },
+      { icon: Laptop, title: "Postes de Travail", desc: "PC fixes, laptops, stations graphiques de marques leaders avec garantie.", href: "/services/distribution/postes-travail" },
+      { icon: Wifi, title: "Équipements Réseau", desc: "Switches, routeurs, points d'accès Cisco, Ubiquiti, HP et autres.", href: "/services/distribution/equipements-reseau" },
+      { icon: Package, title: "Périphériques", desc: "Imprimantes, écrans, scanners et accessoires informatiques professionnels.", href: "/services/distribution/peripheriques" },
+      { icon: BookOpen, title: "Licences Logicielles", desc: "Microsoft, Adobe, antivirus et logiciels métiers au meilleur prix.", href: "/services/distribution/licences-logicielles" },
+      { icon: Truck, title: "Import / Export", desc: "Importation et exportation de matériel technologique international.", href: "/services/distribution/import-export" },
     ],
   },
 ];
 
-function ParallaxBg({ imageUrl, children }: { imageUrl: string; children: React.ReactNode }) {
+function ParallaxBg({ imageUrl, children, id }: { imageUrl: string; children: React.ReactNode; id?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const y = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
   return (
-    <div ref={ref} className="relative overflow-hidden">
+    <div id={id} ref={ref} className="relative overflow-hidden scroll-mt-24 lg:scroll-mt-28">
       <motion.div style={{ y }} className="absolute inset-[-15%] will-change-transform">
         <img src={imageUrl} alt="" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-[#0a1628]/80" />
@@ -116,10 +123,26 @@ function ParallaxBg({ imageUrl, children }: { imageUrl: string; children: React.
 }
 
 const ServicesPage = () => {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      setTimeout(() => {
+        const id = hash.replace("#", "");
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth" });
+        }
+      }, 100);
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [hash]);
+
   return (
     <div className="min-h-screen">
       <Navbar />
-      <div className="pt-24 lg:pt-28">
+      <div className="pt-16 lg:pt-20"> {/* Match new navbar height */}
         {/* Hero */}
         <section className="bg-hero py-16 lg:py-24">
           <div className="container mx-auto px-4 lg:px-8">
@@ -132,7 +155,7 @@ const ServicesPage = () => {
 
         {/* Categories */}
         {categories.map((cat) => (
-          <ParallaxBg key={cat.title} imageUrl={cat.bg}>
+          <ParallaxBg key={cat.title} imageUrl={cat.bg} id={cat.id}>
             <div className="py-16 lg:py-24">
               <div className="container mx-auto px-4 lg:px-8">
                 <motion.div
@@ -195,4 +218,3 @@ const ServicesPage = () => {
 };
 
 export default ServicesPage;
-

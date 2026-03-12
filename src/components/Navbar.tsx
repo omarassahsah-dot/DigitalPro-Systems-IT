@@ -28,7 +28,7 @@ const Navbar = () => {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 backdrop-blur-2xl border-b ${
         scrolled
-          ? "bg-gray-900/40 shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-white/10"
+          ? "bg-[#0a1628]/85 shadow-[0_8px_32px_rgba(0,0,0,0.5)] border-white/10"
           : "bg-gray-900/20 shadow-[0_2px_16px_rgba(0,0,0,0.1)] border-white/5"
       }`}
       style={{ WebkitBackdropFilter: "blur(24px)" }}

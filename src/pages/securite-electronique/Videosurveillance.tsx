@@ -49,7 +49,7 @@ export default function Videosurveillance() {
 
         <ParallaxSection
           imageUrl="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&q=80"
-          overlayClass="bg-background/97"
+          overlayClass="bg-background/90 backdrop-blur-xl"
           className="py-16 lg:py-24"
           speed={6}
         >
