@@ -49,7 +49,7 @@ export default function ProtectionIncendie() {
 
         <ParallaxSection
           imageUrl="https://images.unsplash.com/photo-1563986768494-4dee2763ff3f?w=1920&q=80"
-          overlayClass="bg-background/97"
+          overlayClass="bg-background/90 backdrop-blur-xl"
           className="py-16 lg:py-24"
           speed={6}
         >
